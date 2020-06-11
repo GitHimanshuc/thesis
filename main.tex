@@ -1,0 +1,102 @@
+%%%%%%%%%%%%
+%% Please rename this main.tex file and the output PDF to
+%% [lastname_firstname_graduationyear]
+%% before submission.
+%%%%%%%%%%%%
+
+\documentclass[12pt]{caltech_thesis}
+\usepackage[hyphens]{url}
+\usepackage{lipsum}
+\usepackage{graphicx}
+
+\usepackage{todonotes}
+
+%% Tentative: newtx for better-looking Times
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{newtxtext,newtxmath}
+
+% Must use biblatex to produce the Published Contents and Contributions, per-chapter bibliography (if desired), etc.
+\usepackage[
+    backend=biber,natbib,
+    % IMPORTANT: load a style suitable for your discipline
+    style=authoryear
+]{biblatex}
+
+% Name of your .bib file(s)
+\addbibresource{example.bib}
+\addbibresource{ownpubs.bib}
+
+\begin{document}
+
+% Do remember to remove the square bracket!
+\title{Critical Collapse in gravitational systems}
+\author{Himanshu Chaudhary}
+
+\degreeaward{Master of Science, Physics}                 % Degree to be awarded
+\university{Indian Institute of Science}    % Institution name
+\address{Bangalore, India}                     % Institution address
+\unilogo{images/iisc_logo.png}                                 % Institution logo
+\copyyear{2020}  % Year (of graduation) on diploma
+\defenddate{15 June 2020}          % Date of defense
+
+\orcid{[Author ORCID]}
+
+%% IMPORTANT: Select ONE of the rights statement below.
+% \rightsstatement{All rights reserved\todo[size=\footnotesize]{Choose one from the choices in the source code!! And delete this \texttt{todo} when you're done that. :-)}}
+% \rightsstatement{All rights reserved except where otherwise noted}
+\rightsstatement{Some rights reserved. This thesis is distributed under a [name license, e.g., ``Creative Commons Attribution-NonCommercial-ShareAlike License'']}
+
+%%  If you'd like to remove the Caltech logo from your title page, simply remove the "[logo]" text from the maketitle command
+\maketitle[logo]
+%\maketitle
+
+\begin{acknowledgements}
+   I would like to thank my guide and my family.
+\end{acknowledgements}
+
+\begin{abstract}
+   Critical Collapse of a scalar field and its implications.
+\end{abstract}
+
+%% Uncomment the `iknowhattodo' option to dismiss the instruction in the PDF.
+% \begin{publishedcontent}%[iknowwhattodo]
+%    % List your publications and contributions here.
+%    \nocite{Cahn:etal:2015,Cahn:etal:2016}
+% \end{publishedcontent}
+
+\tableofcontents
+\listoffigures
+\listoftables
+\printnomenclature
+
+\mainmatter
+
+
+% \include{chapters/instructions}
+
+
+\include{chapters/chap1}
+\include{chapters/chap2}
+\include{chapters/chap3}
+\include{chapters/chap4}
+\include{chapters/chap5}
+\include{chapters/chap6}
+
+\printbibliography[heading=bibintoc]
+
+\appendix
+
+\chapter{Other methods of solving differential equations}
+\chapter{Pade` methods}
+
+\printindex
+
+\theendnotes
+
+%% Pocket materials at the VERY END of thesis
+\pocketmaterial
+\extrachapter{Pocket Material: Map of Case Study Solar Systems}
+
+
+\end{document}

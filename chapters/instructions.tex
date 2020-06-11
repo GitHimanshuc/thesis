@@ -1,0 +1,66 @@
+\chapter{Guide}
+Start off all chapters with \verb|chapter|. \index{chapter!numbered} \verb|\extrachapter| will give you an unnumbered chapter that's added to the Table of Contents. \index{chapter!unnumbered}
+
+Here's an example of a citation \citep{GMP81}. Here's another \citep{PP98}. These will appear in the big bibliography at the end of the thesis.
+\index{bibliography}
+
+
+You can define nomenclatures \index{nomenclature} as you talk about key terms in your thesis. So what's a galaxy? \nomenclature{Galaxy}{A system of stars independent from all other systems}
+
+
+\section{This is a Section}
+\lipsum[1-2]
+
+\begin{figure}[hbt!]
+    \centering
+    \includegraphics[width=.3\textwidth]{images/caltech.png}
+    \caption{This is a figure}\label{fig:logo}
+    \index{figures}
+\end{figure}
+
+\subsection{This is a subsection}
+
+\begin{table}[hbt!]
+    \centering
+    \begin{tabular}{ll}
+        \hline
+        Area  & Count \\
+        \hline
+        North & 100   \\
+        South & 200   \\
+        East  & 80    \\
+        West  & 140   \\
+        \hline
+    \end{tabular}
+    \caption{This is a table}\label{tab:sample}
+    \index{tables}
+\end{table}
+
+\lipsum[3] \nomenclature{Asteroid}{A very small planet ranging from 1,000 km to less than one km in diameter. Asteroids are found commonly around other larger planets}
+
+\lipsum[4-5]
+
+Here's an endnote.\endnote{Endnotes are notes that you can use to explain text in a document.}
+
+\section{This is Another Section}
+\lipsum[6-7]
+
+\chapter{This is the Second Chapter}
+\begin{refsection}
+    If you'd like to have separate bibliographies at the end of each chapter, put a \verb|refsection| around the material of each chapter, then cite as usual -- e.g.~\citep{GMP81,Ful83}. Then do a \verb|\printbibliography| just before the \verb|refsection| ends. \index{bibliography!by chapter}
+
+    \printbibliography[heading=subbibliography]
+\end{refsection}
+
+
+\chapter{This is the Third Chapter}
+
+\publishedas{Cahn:etal:2015}
+
+[You can have chapters that were published as part of your thesis. The text style of the body should be single column, as it was submitted to the publisher, not formatted as the publisher did.]
+
+\chapter{This is the Fourth Chapter}
+\chapter{This is the Fifth Chapter}
+\chapter{This is the Sixth Chapter}
+\chapter{This is the Seventh Chapter}
+\chapter{This is the Eighth Chapter}

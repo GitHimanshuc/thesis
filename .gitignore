@@ -1,0 +1,8 @@
+main*
+!*.tex
+!*.bib
+!*.cls
+chapters/*
+!chapters/*.tex
+readings
+thesis.code-workspace
