@@ -6,3 +6,5 @@ chapters/*
 !chapters/*.tex
 readings
 thesis.code-workspace
+codes/*.ipynb
+codes/.ipynb_checkpoints
