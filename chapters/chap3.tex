@@ -99,7 +99,7 @@ dividing by $h$ we get,
 
 \begin{equation}
     y'(x_0)  \approx \frac{y(x_0 + h) - y(x_0)}{h} - \frac{y''(x_0)*h}{2}
-\end{equation}
+\end{equation}\label{eq:1d_1o_error}
 
 Notice that this is the exact formula that we were using for approximating the derivative except for the presence of the extra term $\frac{y''(x_0)*h}{2}$. This extra term represents the error in our approximation (there are of course other higher order terms that we ignored, but this term is going to dominate them anyways). Because the error falls off with the step size $h$ we call this a first order approximation. Looking at the figure \ref{fig:x^3_error_order1} this becomes clear, if the step size was decreased by a factor of two then the error will also go down by a factor of two, i.e. slope of the log(error) vs log(h) line will have a slope 1.
 
@@ -134,19 +134,34 @@ To give some perspective, while solving the scalar collapse equations we are goi
 
 
 
+Having discussed the effect of the step size on the error of finite difference method we now turn to another major source of error. While talking about the error in the equation \ref{eq:1d_1o_error} we conveniently ignored the dependence of the error on the second derivative $y''(x_0)$. One can ask what will happen if the second derivative is itself very larger?
+
+This is the question that  try to answer. We know that,
+
+\begin{equation}
+    \frac{d^n}{dx^n}\left(\frac{1}{x}\right) = (-1)^n \frac{n!}{x^(n+1)}
+\end{equation}
+
+Because the derivatives are themselves very larger close to the origin the error in our finite difference approximation keeps on increasing with as we get closer to the origin. This can be seen in the figures \ref{fig:1/x_1}, \ref{fig:1/x_0.1}, \ref{fig:1/x_0.01}. Notice how we have to take smaller and smaller step size to get the same accuracy as we get closer to the origin.
+
+The approximation at $x=0.01$ is so bad that even taking the step size to be $10^{-10}$ is not giving very accurate answer (Figure \ref{fig:1/x_0.01}.
+
+\textbf{The crux of the matter is that first order finite difference methods struggle when the functions is changing very fast}. Something we will see in the results of our simulations.
 
 
 \begin{figure}[hbt!]
     \centering
     \includegraphics[width=0.8\textwidth]{images/1_x_error_at_1.png}
-    \caption{This plot show error of using finite difference to approximate the derivative of $\frac{1}{x}$ vs the step size.}\label{fig:1/x_1}
+    \caption{This plot show error of using finite difference to approximate the derivative of $\frac{1}{x}$ vs the step size at $x = 1$.}
+    \label{fig:1/x_1}
     \index{figures}
 \end{figure}
 
 \begin{figure}[hbt!]
     \centering
     \includegraphics[width=0.8\textwidth]{images/1_x_error_at_p1.png}
-    \caption{This plot show error of using finite difference to approximate the derivative of $\frac{1}{x}$ vs the step size.}\label{fig:1/x_0.1}
+    \caption{This plot show error of using finite difference to approximate the derivative of $\frac{1}{x}$ vs the step size at $x = 0.1$.}
+    \label{fig:1/x_0.1}
     \index{figures}
 \end{figure}
 
@@ -154,6 +169,18 @@ To give some perspective, while solving the scalar collapse equations we are goi
 \begin{figure}[hbt!]
     \centering
     \includegraphics[width=0.8\textwidth]{images/1_x_error_at_p01.png}
-    \caption{This plot show error of using finite difference to approximate the derivative of $\frac{1}{x}$ vs the step size.}\label{fig:1/x_0.01}
+    \caption{This plot show error of using finite difference to approximate the derivative of $\frac{1}{x}$ vs the step size at $x = 0.01$.}
+    \label{fig:1/x_0.01}
+    \index{figures}
+\end{figure}
+
+
+Although, this situation is still salvageable by using higher order methods as shown in the Figure \ref{fig:1/x_error_vs_order}. Notice that for the same step size the higher order methods are much more accurate, just by going to second order methods we are able to reduce the errors by a lot. Furthermore, using even higher order methods gives a diminishing return which is one of the reasons why we will be using second order methods.
+
+\begin{figure}[hbt!]
+    \centering
+    \includegraphics[width=\textwidth]{images/1_x_error_vs_order.png}
+    \caption{This plot show error of using finite difference to approximate the derivative of $\frac{1}{x}$ vs the order of the approximation.}
+    \label{fig:1/x_error_vs_order}
     \index{figures}
 \end{figure}
