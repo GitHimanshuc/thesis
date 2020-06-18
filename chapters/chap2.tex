@@ -4,3 +4,47 @@ In our case we were not so much interested in the behavior of the field close to
 
 \begin{equation}M \simeq k\left(p-p_{*}\right)^{\gamma}\end{equation}
 \begin{equation}\phi_{*}(r, t)=\phi_{*}\left(e^{\Delta} r, e^{\Delta} t\right)\end{equation}
+
+
+\begin{equation}
+    -\psi_{, t t}+\psi_{, x x}+\frac{2}{r}\left(-r_{, t} \psi_{, t}+r_{, x} \psi_{, x}\right)=0
+\end{equation}
+
+\begin{equation}
+    -r_{, t t}+r_{, x x}-e^{-2 \sigma} \cdot \frac{2 m}{r^{2}}=0
+\end{equation}
+
+\begin{equation}
+    -\sigma_{, t t}+\sigma_{, x x}-e^{-2 \sigma} \cdot \frac{2 m}{r^{3}}+4 \pi\left(\psi_{, t}^{2}-\psi_{, x}^{2}\right)=0
+\end{equation}
+
+\begin{equation}m_{, t}=4 \pi r^{2} \cdot e^{2 \sigma}\left[-\frac{1}{2} r_{, t}\left(\psi_{, t}^{2}+\psi_{, x}^{2}\right)+r_{, x} \psi_{, t} \psi_{, x}\right]\end{equation}
+
+
+\section{Boundary and Initial conditions} \label{sec:boundary_and_initial_conditions}
+
+There are four variables in our equations $r,m,\sigma,\psi$. At time $t=0$ we only have the value of $\psi$ for all the values of $x$, i.e. we have profile of the initial scalar field configuration. Before we can evolve the system in time we need the profile of other three variable at $t=0$. That being said we are not free to choose any profile for $r,m,\sigma$ because even at $t=0$ they have to satisfy the Einstein equations to represent a physical system.
+
+
+\begin{equation}
+    r_{, x x}=e^{-2 \sigma} \cdot \frac{2 m}{r^{2}}
+\end{equation}\label{eqn:r_chap3}
+
+
+\begin{equation}
+    \sigma_{, x}= -2 \pi \cdot  \frac{\psi_{, x}^{2} \cdot r}{r_{,x}}- e^{-2 \sigma} \cdot \frac{ m}{r^{2}r_{, x}}
+\end{equation}\label{eqn:sigma_chap3}
+
+\begin{equation}m_{, x}=4 \pi r^{2} \cdot e^{2 \sigma}\left[\frac{1}{2} r_{, x} \cdot \psi_{, x}^{2} \right]\end{equation}
+
+
+with boundary conditions,
+
+\begin{eqnarray}
+    r(0 ,0) = 0 \implies r^0_0 = 0 \\
+    r_{,x}(0 ,0) = 1 \implies r^0_{0,x} = 1 \\
+    \sigma(0 ,0) = 1 \implies \sigma^0_0 = 0 \\
+    m(0 ,0) = 1 \implies m^0_0 = 0
+\end{eqnarray}
+
+Notice that we need four boundary conditions in total and we have them.

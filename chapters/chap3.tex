@@ -25,7 +25,8 @@ The definition of derivative gives us the exact answer in the limit. What we can
 
 \begin{equation}
     \frac{dy(x_0)}{dx} \approx \frac{y(x_0 + h) - y(x_0)}{h} , \text{for } h << 1
-\end{equation}\label{eq:first_order}
+    \label{eq:first_order}
+\end{equation}
 
 We have shown the results of using the equation \ref{eq:first_order} to approximate the derivative of $x^3$ at $x=1$ in the figure \ref{fig:x^3_error_order1}. Y axis in the figure is the log error of the approximation and X axis is the log of the \index{step size} step size ($h$). Figure \ref{fig:x^3_error_order1} has a lot of stuff going on in it and we will break it down into parts. But before we do that we will briefly look at how computers store decimal numbers and how does it affect our calculations.
 
@@ -81,7 +82,8 @@ To approximate the derivative of $x^3$ at $x=1$ we have used the formula,
 
 \begin{equation}
     \frac{dy(x_0)}{dx} \approx \frac{y(x_0 + h) - y(x_0)}{h} , \text{for } h << 1
-\end{equation}\label{eq:first_order_2}
+    \label{eq:first_order_2}
+\end{equation}
 
 This is called a \index{first order} first order finite difference approximation. To understand why is it called we will taylor expand the $y(x)$ around $x_0$ with step size $h$
 
@@ -99,7 +101,8 @@ dividing by $h$ we get,
 
 \begin{equation}
     y'(x_0)  \approx \frac{y(x_0 + h) - y(x_0)}{h} - \frac{y''(x_0)*h}{2}
-\end{equation}\label{eq:1d_1o_error}
+    \label{eq:1d_1o_error}
+\end{equation}
 
 Notice that this is the exact formula that we were using for approximating the derivative except for the presence of the extra term $\frac{y''(x_0)*h}{2}$. This extra term represents the error in our approximation (there are of course other higher order terms that we ignored, but this term is going to dominate them anyways). Because the error falls off with the step size $h$ we call this a first order approximation. Looking at the figure \ref{fig:x^3_error_order1} this becomes clear, if the step size was decreased by a factor of two then the error will also go down by a factor of two, i.e. slope of the log(error) vs log(h) line will have a slope 1.
 
@@ -116,7 +119,8 @@ We can also use higher order methods, for example a second order method,
 
 \begin{equation}
     y'(x_0)  \approx \frac{y(x_0 + h) - y(x_0 - h)}{2*h}
-\end{equation}\label{eq:d_second_order}
+    \label{eq:d_second_order}
+\end{equation}
 
 To show that this a second order method one can taylor expand $y(x)$ around $x_0$ with step size $h$ and $-h$ and plug it back into the equation \ref{eq:d_second_order}. Figure \ref{fig:x^3_error_order2} shows the log(error) vs log(step size) graph for the second order approximation, notice that the slope of the line is now 2. Using higher order methods can give more accurate results for the same step size but they lead to other issues which we will briefly discuss later.
 
@@ -184,3 +188,193 @@ Although, this situation is still salvageable by using higher order methods as s
     \label{fig:1/x_error_vs_order}
     \index{figures}
 \end{figure}
+
+% \Needspace{5\baselineskip}
+
+\section{Solving scalar collapse equations}
+
+Now that we have some understanding of how finite difference can be used to approximate derivatives, the next logical step is use it all to solve the differential equations that we have. In particular we want to solve,
+
+\begin{equation}
+    -r_{, t t}+r_{, x x}-e^{-2 \sigma} \cdot \frac{2 m}{r^{2}}=0
+    \label{eqn:r_chap3}
+\end{equation}
+
+\begin{equation}
+    -\psi_{, t t}+\psi_{, x x}+\frac{2}{r}\left(-r_{, t} \psi_{, t}+r_{, x} \psi_{, x}\right)=0
+    \label{eqn:psi_chap3}
+\end{equation}
+
+\begin{equation}
+    -\sigma_{, t t}+\sigma_{, x x}-e^{-2 \sigma} \cdot \frac{2 m}{r^{3}}+4 \pi\left(\psi_{, t}^{2}-\psi_{, x}^{2}\right)=0
+    \label{eqn:sigma_chap3}
+\end{equation}
+
+\begin{equation}
+    m_{, t}=4 \pi r^{2} \cdot e^{2 \sigma}\left[-\frac{1}{2} r_{, t}\left(\psi_{, t}^{2}+\psi_{, x}^{2}\right)+r_{, x} \psi_{, t} \psi_{, x}\right]
+    \label{eqn:m_chap3}
+\end{equation}
+
+There are two parts to solving the scalar collapse equations:
+\begin{enumerate}
+    \item Solve the initial condition problem
+    \item Evolve the initial configuration in time
+\end{enumerate}
+
+In general case solving initial conditions is a very hard thing because we have to deal with elliptical partial differential equations. But in this case we are lucky as we are working in the 1D case where we just need to solve a set of ordinary differential equations, which are much much easier and cheaper to solve.
+
+We will be using finite difference methods to solve the initial conditions and then evolve the system in time, to do that we will first define some terminology and discretization of time-space. \index{Discretization} Discretization of the \index{time-space domain}time-space domain is shown in the figure \ref{fig:grid}, we will use uniform discretization which means that all time ($\Delta t$) and space ($\Delta x$) step sizes will be the same throughout the grid.
+
+
+
+\begin{figure}[hbt!]
+    \centering
+    \includegraphics[width=\textwidth]{images/grid.png}
+    \caption{Uniform discretization of time-space into a grid with space step size $\delta x$ and time step size $\delta t$.}
+    \label{fig:grid}
+    \index{figures}
+\end{figure}
+
+Furthermore, we will denotes the value of a variable $X(t,x)$ on the grid by,
+
+\begin{equation}
+    X^{n}_{j}  = X(n \delta t, j \delta x)
+\end{equation}
+
+Finite difference approximation of the derivatives $X^n_{j,x}$ and $X^n_{j,t}$ can be written as, (we will stop stop using $\approx$ sign from now on, but it should be clear from the context that we are talking about an approximation)
+
+\begin{equation}
+    X^n_{j,t} = \frac{X^{n+1}_{j} - X^{n-1}_{j}}{2 \delta t}
+\end{equation}
+\begin{equation}
+    X^n_{j,x} = \frac{X^n_{j+1} - X^n_{j-1}}{2 \delta x}
+\end{equation}
+
+Similarly, second order derivatives can be written as,
+
+
+\begin{equation}
+    X^n_{j,tt} = \frac{X^{n+1}_{j} -2X^n_j + X^{n-1}_{j}}{\delta t^2}
+\end{equation}
+\begin{equation}
+    X^n_{j,xx} = \frac{X^n_{j+1} -2 X^n_j+ X^n_{j-1}}{\delta x^2}
+\end{equation}
+
+
+
+
+\subsection{Solving initial conditions}
+
+From the section \ref{sec:boundary_and_initial_conditions} we know that equations that we need to solve and their corresponding boundary conditions.
+
+
+\begin{equation}
+    r_{, x x}=e^{-2 \sigma} \cdot \frac{2 m}{r^{2}}
+    \label{eqn:r_ic}
+\end{equation}
+
+
+\begin{equation}
+    \sigma_{, x}= -2 \pi \cdot  \frac{\psi_{, x}^{2} \cdot r}{r_{,x}}- e^{-2 \sigma} \cdot \frac{ m}{r^{2}r_{, x}}
+    \label{eqn:sigma_ic}
+\end{equation}
+
+\begin{equation}
+    m_{, x}=4 \pi r^{2} \cdot e^{2 \sigma}\left[\frac{1}{2} r_{, x} \cdot \psi_{, x}^{2} \right]
+    \label{eqn:m_ic}
+\end{equation}
+
+
+with boundary conditions,
+
+\begin{eqnarray}
+    r(0 ,0) = 0 \implies r^0_0 = 0 \\
+    r_{,x}(0 ,0) = 1 \implies r^0_{0,x} = 1 \\
+    \sigma(0 ,0) = 1 \implies \sigma^0_0 = 0 \\
+    m(0 ,0) = 1 \implies m^0_0 = 0
+\end{eqnarray}
+
+We used fourth order \index{Runge-Kutta}Runge-Kutta (RK4) method to solve these equations. RK4 method is the industry standard method to solve ordinary differential equations, as the name suggests RK4 is a fourth order method. Like most of the other finite difference methods RK4 is derived by solving a bunch of linear equations we get from the taylor expansion, and its derivation is shown in the appendix because it will not add a lot to the current discussion.
+
+Unlike partial differential equations, solving ordinary differential equations is mostly a "solved" problem in the sense that are plethora of robust packages that can solve a system of differential equations without any significant input from the user.
+
+The standard way to solve a system of ordinary differential equations with higher order derivative is to define new variable and get a set of first order ODEs. In our case we define a new variable $\bar r = r_{,x}$ which gives us,
+
+
+\begin{equation}
+    r_{,x} = \bar r
+    \label{eqn:r2_ic}
+\end{equation}
+
+\begin{equation}
+    \bar r_{,x}=e^{-2 \sigma} \cdot \frac{2 m}{r^{2}}
+    \label{eqn:br2_ic}
+\end{equation}
+
+
+\begin{equation}
+    \sigma_{, x}= -2 \pi \cdot  \frac{\psi_{, x}^{2} \cdot r}{\bar r}- e^{-2 \sigma} \cdot \frac{ m}{r^{2}\bar r}
+    \label{eqn:sigma2_ic}
+\end{equation}
+
+\begin{equation}
+    m_{, x}=4 \pi r^{2} \cdot e^{2 \sigma}\left[\frac{1}{2} \bar r \cdot \psi_{, x}^{2} \right]
+    \label{eqn:m2_ic}
+\end{equation}
+
+Observe that there are no unknown derivatives in the RHS of these equations ($\psi _{,x}$ is known because we have the initial profile of $\psi$). At this point one can plug these equations in any differential equations solver, in our case we used DifferentialEquations.jl library for Julia language with tolerance set to $10^{-8}$.
+
+
+
+\subsection{Time evolution}
+
+For time evolution we will use second order \index{discretization}discretization of both the first and the second order derivatives. We will just show the discretization of the equation \ref{eqn:psi_discretized} which requires most work, rest of the equations can be discretized using the exact same procedure.
+
+We should mention that to make things simple it is important that we solve the equation \ref{eqn:r_chap3} first followed by equation \ref{eqn:psi_chap3} after which other two equations can be solved in any order. The reason for this choice will become clear as we discretized the system.
+
+\begin{equation}
+    -\psi_{, t t}+\psi_{, x x}+\frac{2}{r}\left(-r_{, t} \psi_{, t}+r_{, x} \psi_{, x}\right)=0
+    \label{eqn:psi_discretized}
+\end{equation}
+
+Writing the equation \ref{eqn:psi_discretized} in the notation we defined earlier we get:
+
+\begin{equation}
+    -\psi^n_{j, t t}+\psi^n_{j, x x}+\frac{2}{r^n_j}\left(-r^n_{j, t} \psi^n_{j, t}+r^n_{j, x} \psi^n_{j, x}\right)=0
+    \label{eqn:psi_discretized_notation}
+\end{equation}
+
+Now we will use the second order finite difference approximations already discussed,
+
+\begin{eqnarray}
+    \label{eqn:beg_discretizations}
+    \psi^n_{j,tt} &=& \frac{\psi^{n+1}_j - 2 \psi^{n}_j + \psi^{n-1}_j}{\delta t^2} \\
+    \psi^n_{j,t} &=& \frac{\psi^{n+1}_j -  \psi^{n-1}_j}{2\delta t} \\
+    \psi^n_{j,xx} &=& \frac{\psi^{n}_{j+1} - 2 \psi^{n}_j + \psi^{n}_{j-1}}{\delta x^2} \\
+    \psi^n_{j,x} &=& \frac{\psi^{n}_{j+1} -  \psi^{n}_{j-1}}{2\delta x}
+    \label{eqn:end_discretizations}
+\end{eqnarray}
+
+Other variables can be discretized in the same manner. Now we will make another simplifying assumption $\delta t = \delta x$, we make this assumption to make the equations look a little simpler and it does not affect the results. But, this is not something that can be always be done, there are systems where making this assumption will lead to \index{superfluous oscillations} superfluous oscillations and \index{instability}instability. To prevent such instabilities we need to ensure that the temporal step size ($\delta t$) is bounded above by the spatial step size ($\delta x$) as dictated by the \index{Courant–Friedrichs–Lewy}Courant–Friedrichs–Lewy or \index{CFL}CFL conditions, we will discuss this topic in detail in Appendix B. For now it is enough to know that for our system we can take $\delta t = \delta x$ without causing instabilities.
+
+
+Now, putting equations \ref{eqn:beg_discretizations}-\ref{eqn:end_discretizations} and similar equations for $r$ in the equation \ref{eqn:psi_discretized_notation} and cancelling out all the $\delta t$ and $\delta x$ we get,
+
+\begin{multline}
+    \psi^{n+1}_{j} + \psi^{n-1}_{j} - \psi^{n}_{j+1} - \psi^{n}_{j-1} = \frac{((\psi^{n}_{j+1} - \psi^{n}_{j-1})(r^{n}_{j+1} - r^{n}_{j-1}) - (\psi^{n+1}_{j} - \psi^{n-1}_{j})(r^{n+1}_{j} - r^{n-1}_{j}))}{2 r^n_j}
+    \label{eqn:pis_discretized_long}
+\end{multline}
+
+What we need to do now is to collect all the $\psi^{n+1}_j$ terms on the LHS and rest of the equation on the RHS. This will give us the value of $\psi$ at the future time $(n+1) \delta t$ using the value of r and $\psi$ at the current time $n \delta t$ and the last time step $ (n-1) \delta t$.
+
+
+One can see that this will lead to a very convoluted and hard to debug equation, there is actually a lot of simplification one can do by calculating few things in advance. First, notice that we can calculate all the spatial derivatives in advance because they only depend on the current time step ($n \delta t$). Furthermore, because we solved the equation \ref{eqn:r_chap3} before the current equation of $\psi$ we can also calculate and store the value of $r^n_{j,t}$ in advance. Using all this we can rewrite the equation \ref{eqn:pis_discretized_long} as,
+
+
+\begin{multline}
+    \psi^{n+1}_{j} + \psi^{n-1}_{j} - \psi^{n}_{j+1} - \psi^{n}_{j-1} = \frac{(4\delta t^2 (\psi^{n}_{j,x} \, r^{n}_{j,x}) - 2 \delta t(\psi^{n+1}_{j} - \psi^{n-1}_{j})\,r^{n}_{j,t})}{2 r^n_j}
+\end{multline}
+
+Now our equation is much more tangible and we can bring all the $\psi^{n+1}_j$ factors to the RHS and get the \index{time stepping equation}time stepping equation for $\psi$. We should explicitly mention that this is just a cosmetic change and the final answer will be the same up to floating point errors.
+
+For other equations, the procedure is exactly the same with the only difference being that there will be no future time step term like $\psi^{n+1}_j$ in the LHS which will make the corresponding time stepping equations much simpler.
