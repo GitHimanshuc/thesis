@@ -373,8 +373,72 @@ One can see that this will lead to a very convoluted and hard to debug equation,
 
 \begin{multline}
     \psi^{n+1}_{j} + \psi^{n-1}_{j} - \psi^{n}_{j+1} - \psi^{n}_{j-1} = \frac{(4\delta t^2 (\psi^{n}_{j,x} \, r^{n}_{j,x}) - 2 \delta t(\psi^{n+1}_{j} - \psi^{n-1}_{j})\,r^{n}_{j,t})}{2 r^n_j}
+    \label{eqn:final_psi}
 \end{multline}
 
 Now our equation is much more tangible and we can bring all the $\psi^{n+1}_j$ factors to the RHS and get the \index{time stepping equation}time stepping equation for $\psi$. We should explicitly mention that this is just a cosmetic change and the final answer will be the same up to floating point errors.
 
 For other equations, the procedure is exactly the same with the only difference being that there will be no future time step term like $\psi^{n+1}_j$ in the LHS which will make the corresponding time stepping equations much simpler.
+
+
+\begin{figure}[hbt!]
+    \centering
+    \includegraphics[width=\textwidth]{images/labelled_grid.eps}
+    \caption{This figure shows our computational domain and the stencil used. To calculate the value at any point on the grid we need the red dot of the stencil to be at that grid point, observe that we can not put the red circle of the stencil in the regions that are green, red and blue. \textbf{Yellow}: We can use our stencil in this region. \textbf{Red}: We have to use any other method or stencil that only uses last time step, we used taylor series because it was the easiest to use in our case. \textbf{Blue}: This is the initial configuration of system that we evolve in time, initial conditions of our system.}
+    \label{fig:grid_with_stencil_and_regions}
+    \index{figures}
+\end{figure}
+
+
+
+There is one last technicality that we have to deal with before we can wrap up this section, we can not use the time stepping equation we derived above for the first time step ($n=1$). One can see this by plugging in $n=0$ in the equation \ref{eqn:final_psi}, which is supposed to give the value of $\psi$ at time $\delta t$. But, doing so will lead to a term of type $\psi^{-1}_j$ which is of course not something we can deal with using our current \index{stencil}stencil (time stepping equations).
+
+
+This brings us to one of the reason why higher order methods are in general harder to code and reason. Because out finite difference approximations use three space and and last two time step we can not use it at the boundaries or for the first time step. Figure \ref{fig:grid_with_stencil_and_regions} shows various regions where we can not use out time stepping equations.
+
+
+\subsection{Dealing with the first time step}
+
+To calculate the value of the variables at time $t = \delta t$ we used taylor series, again for brevity we will show the procedure just for $\psi$.
+
+\begin{equation*}
+    \psi(\delta t,x) = \psi(0,x) + \delta t\, \psi_{,t}(0,x) + \frac{\delta t^2}{2} \, \psi_{,tt}(0,x) + O(\delta t^3)
+\end{equation*}
+
+
+First notice that we are using taylor series up to $O(\delta t^3)$, this is essential because our time stepping equations are second order. If we do not use higher order taylor series then the higher error will propagate to later time steps defeating the purpose of using second order stencil. This should be kept in mind while using single step methods as well, because they are not as accurate as our second order method for the same step size. In that case we need to divide the time step $\delta t$ into smaller time steps and take multiple small time steps via a single step stencil to get to the first time step.
+
+
+Another convenience in using taylor series in our case is that $X_{,t}(0,x) = 0$ for $X = \psi, r ,\sigma$ because of our boundary conditions. Thus we only need to solve,
+
+\begin{equation*}
+    \psi(\delta t,x) = \psi(0,x) + \frac{\delta t^2}{2} \, \psi_{,tt}(0,x) + O(\delta t^3)
+\end{equation*}
+
+$X_{,tt}(0,x)$ can be easily obtained using the equations \ref{eqn:r_chap3}-\ref{eqn:sigma_chap3}.
+
+
+For $m$ we need to do some work, first we have to take time derivative of the equation \ref{eqn:m_chap3} and then use it in the taylor series.
+
+
+\subsection{Boundary conditions}
+
+
+Boundary conditions at $x=0$ are easy to implement, for example, $r_t(t,0) = 0$ when discretized is same as $r^{n}_0 = r^{n-1}_0$. Similarly, $\psi_{,x}(t,0) = 0 $ when discretized implies $\psi^{n}_0 = \psi^{n}_1$.
+
+Now, we need the boundary conditions at the outer boundary, in the physical space this is same as the boundary conditions at infinity. But we are working with a finite domain so we need some kind of boundary conditions at the spatial edge of our computational domain. There are multiple ways to deal with this, one is to simply use \index{extrapolation boundary conditions}extrapolation boundary conditions. Another is to use absorbing boundary conditions or free boundary conditions, both of these are usually more accurate but at the same time harder to implement.
+
+In our case we are lucky because we have a system of hyperbolic equations and in addition to that we do not need to evolve the system for longer periods.
+As it turns out for hyperbolic systems there is a natural light cone kind of domain associated with eat grid point and it can only be affected by these grid points.
+This can be intuitively seen in the Figure \ref{fig:grid_outer_boundary_conditions}, thus we use simple extrapolation boundary conditions and be done with it.
+
+\begin{figure}[hbt!]
+    \centering
+    \includegraphics[width=\textwidth]{images/grid_outer_boundary_condition.png}
+    \caption{This figure shows the grid points that can affect the grid point X at $(6 \,\delta t, \delta x)$. Grid points in blue can affect the grid point X while grid points in red can not.}
+    \label{fig:grid_outer_boundary_conditions}
+    \index{figures}
+\end{figure}
+
+
+This sums up our numerical part, in the next chapter we will discuss about the profiles of $\psi$ used and the results.
