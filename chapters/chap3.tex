@@ -55,7 +55,7 @@ We have shown the results of using the equation \ref{eq:first_order} to approxim
     \label{table:floats}
 \end{table}
 
-Table \ref{table:floats} has the information about different kind of floats used in the graphs. \index{Precision}Precision denotes the number of significant digits that a particular type of float can store, for example, float32 can store just 6 numbers after the decimal point which is why $\frac{1}{3}$ is stored as $0.33333334$. Also, note that the there is a huge difference in the largest number that can be stored between different kind of floats. If we try to store a number larger than the maximum number that a float type can hold we get an overflow error and computer starts giving us random garbage. Different languages and libraries deal with such errors in different ways and it is not worth going into the specifics, but the bottom line is that we can not work with float64 if our systems have numbers larger than $1.79*10^{308}$.
+Table \ref{table:floats} has the information about different kind of floats used in the graphs. \index{Precision}Precision denotes the number of significant digits that a particular type of float can store, for example, float32 can store just 6 numbers after the decimal point which is why $\frac{1}{3}$ is stored as $0.33333334$. Also, note that the there is a huge difference in the largest number that can be stored between different kind of floats. If we try to store a number larger than the maximum number that a float type can hold we get an overflow error and computer starts giving us random garbage. Different languages and libraries deal with such errors in different ways and it is not worth going into the specifics, but the bottom line is that we can not work with float64 if our systems have numbers larger than $1.79\times 10^{308}$.
 
 
 Most of the modern computers chips use float64 internally and they have CPU circuits that are very efficient in working with float64 numbers. Float64 denotes that this number will use 64bits of memory, while float32 numbers only use 32bits of memory; this means that we can store more float64 numbers in the same amount of memory. What this means in practical terms is that a we can store around $10^9$ floats in $8GB$ of RAM, or a matrix with approximately 31000 rows and columns. If we are not clever with what we are storing in our RAM there is real danger that we may run out of memory, which will cause an error and our program will stop.
@@ -68,7 +68,7 @@ This loss of accuracy is what we call \index{floating point error}floating point
 We will discuss one final point we need to discuss before we wrap up this section and go back to developing finite difference algorithms. Given any two floating point numbers, we want to ask that when are they equal to each other?
 This question is important because it is related to the precision of floating point numbers. For example, if we try to subtract $1.0000001$ from $1.0000007$ and they are stored as float32, then we will get some random garbage. The reason being that float32 can not handle more than 6 decimal significant digits properly.
 The general rule is that one should try to avoid subtracting two numbers that are close and have a lot of significant digits in their \index{mantissa}mantissa, as that usually gives a lot of error.
-Just for the sake of clarity, we should mention that here we are not taking about numbers with small magnitude. So, even float32 can easily handle numbers of small magnitude like subtracting $2*10^{-30}$ from $1*10^{-30}$ because their mantissa does not have a lot of significant digits. But, at the same time $2 + 10^{-8}$ and $2$ will both be stores as $2.0$ inside the computer memory and will give zero if subtracted from each other.
+Just for the sake of clarity, we should mention that here we are not taking about numbers with small magnitude. So, even float32 can easily handle numbers of small magnitude like subtracting $2 \times 10^{-30}$ from $1 \times 10^{-30}$ because their mantissa does not have a lot of significant digits. But, at the same time $2 + 10^{-8}$ and $2$ will both be stores as $2.0$ inside the computer memory and will give zero if subtracted from each other.
 
 
 Here we have given all the examples in float32 but the concepts carry over to float64, the only difference being that float64 can handle much smaller number and more significant digits. As already mentioned modern computers CPU's are designed to deal with float64 arithmetic and it is accurate enough so we use it for most of our calculations. Using float128 or larger floats can give much more accuracy but they will very slow compared to using float64 and are not required for most of the applications.
@@ -88,23 +88,23 @@ To approximate the derivative of $x^3$ at $x=1$ we have used the formula,
 This is called a \index{first order} first order finite difference approximation. To understand why is it called we will taylor expand the $y(x)$ around $x_0$ with step size $h$
 
 \begin{equation}
-    y(x_0 + h) = y(x_0) + y'(x_0)*h +\frac{y''(x_0)*h^2}{2} + \dots
+    y(x_0 + h) = y(x_0) + y'(x_0) \times h +\frac{y''(x_0) \times h^2}{2} + \dots
 \end{equation}
 
 If we truncate the series at $O(h^2)$ and rearrange a little we get,
 
 \begin{equation}
-    y(x_0 + h) - y(x_0) \approx y'(x_0)*h +\frac{y''(x_0)*h^2}{2}
+    y(x_0 + h) - y(x_0) \approx y'(x_0) \times h +\frac{y''(x_0) \times h^2}{2}
 \end{equation}
 
 dividing by $h$ we get,
 
 \begin{equation}
-    y'(x_0)  \approx \frac{y(x_0 + h) - y(x_0)}{h} - \frac{y''(x_0)*h}{2}
+    y'(x_0)  \approx \frac{y(x_0 + h) - y(x_0)}{h} - \frac{y''(x_0) \times h}{2}
     \label{eq:1d_1o_error}
 \end{equation}
 
-Notice that this is the exact formula that we were using for approximating the derivative except for the presence of the extra term $\frac{y''(x_0)*h}{2}$. This extra term represents the error in our approximation (there are of course other higher order terms that we ignored, but this term is going to dominate them anyways). Because the error falls off with the step size $h$ we call this a first order approximation. Looking at the figure \ref{fig:x^3_error_order1} this becomes clear, if the step size was decreased by a factor of two then the error will also go down by a factor of two, i.e. slope of the log(error) vs log(h) line will have a slope 1.
+Notice that this is the exact formula that we were using for approximating the derivative except for the presence of the extra term $\frac{y''(x_0) \times h}{2}$. This extra term represents the error in our approximation (there are of course other higher order terms that we ignored, but this term is going to dominate them anyways). Because the error falls off with the step size $h$ we call this a first order approximation. Looking at the figure \ref{fig:x^3_error_order1} this becomes clear, if the step size was decreased by a factor of two then the error will also go down by a factor of two, i.e. slope of the log(error) vs log(h) line will have a slope 1.
 
 \begin{figure}[hbt!]
     \centering
@@ -118,7 +118,7 @@ In the beginning, irrespective of the float size, we have a straight line which 
 We can also use higher order methods, for example a second order method,
 
 \begin{equation}
-    y'(x_0)  \approx \frac{y(x_0 + h) - y(x_0 - h)}{2*h}
+    y'(x_0)  \approx \frac{y(x_0 + h) - y(x_0 - h)}{2 \times h}
     \label{eq:d_second_order}
 \end{equation}
 
