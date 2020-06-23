@@ -1,27 +1,28 @@
-\chapter{Collapse of scalar field in general relativity}
+\chapter{Gravitational collapse of a scalar field in general relativity}
 
+If we look at the evolution of a minimally coupled massless scalar field in general relativity then it will either disperse to infinity or collapse into a black hole depending on the initial data. In addition to that, if we vary any one parameter $p$ of the initial data then we can find a threshold $p^*$ crossing which will lead to the formation of a black hole. But, if we are exactly at the threshold $p^*$ then we get critical collapse along with a lot of interesting properties.
 
-If we have a minimally coupled massless scalar field in general relativity then it will either disperse to infinity or collapse into a black hole. In addition to that if we vary any one parameter $p$ of the initial data then we can find a threshold $p^*$ above crossing which will lead to the formation of a black hole. At this threshold $p^*$ we get critical collapse along with a lot of interesting properties.
-
-Firstly, there is a mass scaling law of the black hole
+Firstly, there is a mass \index{scaling law}scaling law of the black hole formed due to the collapse
 
 \begin{equation*}
     M \propto (p - p^*)^\gamma
 \end{equation*}
 
-Here M is the mass of the black hole, and $p^*$ depends on the function that describes in the initial data, for example it will be different for a gaussian vs a square initial data. The important point to note here is that $\gamma$ is universal or independent of the the type of the initial data.
+Here M is the mass of the black hole, and $p^*$ is the threshold value which depends on the function that describes in the initial data, so it will be different based on whether our initial data is described by a gaussian or a square. The important point to note here is that $\gamma$ is universal or independent of the the type of the initial data.
 
-This universality has a very important implication, as it implies that one can create a naked singularity because one can effectively create a massless black hole.
+This universality has a very important implication, that one can create a \index{naked singularity}naked singularity. This can be seen in the scaling law, according to which we can create black holes with arbitrarily small masses by taking the value of $p$ to be arbitrarily close to $p^*$.
 
-Another important property of scalar field collapse close to criticality is called self-similarity. Self-similarity means that close to the origin the scalar field follow a scaling relation,
+Another important property of scalar field collapse close to criticality is called self-similarity. Self-similarity implies that close to the origin the scalar field follows a scaling relation,
 
 \begin{equation*}
     \psi(t,x) = \psi(e^{At},e^{Ax})
 \end{equation*}
 
-First studies of scalar field collapse were done by Choptuik \citep{Gundlach:2007gc}, but his studies were focussed on the critical collapse.
+This scaling makes it very hard to study the behavior of the scalar field close to the origin, because it starts to oscillate very rapidly during the critical collapse.
 
-In our case we were not so much interested in the behavior of the field close to criticality. What we wanted to understand was how much the scalar field moves during the black hole formation so we can relate it to the swampland distance bound.
+First studies of scalar field collapse were done by Choptuik \citep{Gundlach:2007gc}, but the focus of his study was to understand the critical behavior. He showed the two aforementioned properties of critical collapse for a spherically symmetric scalar field via numerical simulations. Since then a lot of research has been done in this field but most of it was focused on understanding and testing these properties for more general cases.
+
+In our case we were not so much interested in the behavior of the field close to criticality. What we wanted to understand was how much does the scalar field moves during the black hole formation so we can relate it to the swampland distance bound.
 
 \section{Scalar collapse equations}
 
@@ -32,7 +33,7 @@ To get the equations of motion we will closely follow the approach taken by \cit
     S=\frac{1}{8 \pi G} \int d^{4} x \sqrt{-g}\left(\frac{1}{2} R-\frac{1}{2} \partial_{\mu} \phi \partial^{\mu} \phi\right)
 \end{equation}
 
-Because we want to study the scalar fields near the origin a good choice of coordinates is double-null coordinates,
+Because, we want to study the scalar fields near the origin a good choice of coordinates is the double-null coordinates,
 
 \begin{equation}
     ds^2=e^{-2 \sigma(t, x)}\left(-d t^{2}+d x^{2}\right)+r^{2}(t, x) d \Omega^{2}
@@ -55,7 +56,7 @@ We can now write our equations of motion as,
     -\psi_{, t t}+\psi_{,x x}+\frac{2}{r}\left(-r_{, t} \psi_{, t}+r_{, x} \psi_{, x}\right)=0
 \end{equation}
 
-In addition to these evolution equations we also get two constraint equations as well,
+In addition to these evolution equations we also get two constraint equations,
 
 
 \begin{equation}
@@ -68,8 +69,9 @@ In addition to these evolution equations we also get two constraint equations as
     \label{eqn:constraint_2}
 \end{equation}
 
+We will use these equations to solve the initial conditions and also to verify that our numerical simulations are giving sensible results.
 
-Now we introduce a new variable $m$ defined by,
+Now, we will introduce a new variable $m$ defined by,
 
 \begin{equation}
     g^{\mu \nu} r_{, \mu} r_{, \nu}=e^{2 \sigma}\left(-r_{, t}^{2}+r_{, x}^{2}\right) \equiv 1-\frac{2 m}{r}
@@ -77,7 +79,7 @@ Now we introduce a new variable $m$ defined by,
 \end{equation}
 
 Defining this extra variable helps with the stability of the numerical solutions.
-To get the evolution equation for $m$ we differentiate the equation \ref{eqn:m_definition} with respect to time and use the above equations. Using the definition of $m$ we can write the final form of the equations that we will be using to study the scalar collapse,
+To get the evolution equation for $m$ we differentiate the equation \ref{eqn:m_definition} with respect to time and use the evolution and constraint equations, which gives us equation \ref{eqn:m_t}. Using the definition of $m$ we can write the final form of the equations that we will be using to study the scalar collapse,
 
 
 \begin{equation}
@@ -101,7 +103,7 @@ To get the evolution equation for $m$ we differentiate the equation \ref{eqn:m_d
 \end{equation}
 
 
-differentiating the equation \ref{eqn:m_definition} with respect to $x$ and using the evolution equation we can also get the equation for the $x$ derivative of $m$ which we will be using to solve for the initial conditions.
+To get the initial data we also need the spatial derivative of $m$, which we can get by differentiating the equation \ref{eqn:m_definition} with respect to $x$ and using the evolution and constraint equations.
 
 \begin{equation}
     m_{, x}=4 \pi r^{2} \cdot e^{2 \sigma}\left[\frac{1}{2} r_{, x}\left(\psi_{, t}^{2}+\psi_{, x}^{2}\right)-r_{, t} \psi_{, t} \psi_{, x}\right]
@@ -112,8 +114,7 @@ differentiating the equation \ref{eqn:m_definition} with respect to $x$ and usin
 
 
 
-There are four variables in our equations $r,m,\sigma,\psi$. At time $t=0$ we only have the value of $\psi$ for all the values of $x$, i.e. we have profile of the initial scalar field configuration. Before we can evolve the system in time we need the profile of other three variable at $t=0$. That being said we are not free to choose any profile for $r,m,\sigma$ because even at $t=0$ they have to satisfy the Einstein equations to represent a physical system.
-To get the initial conditions we will use a simplification and set the initial conditions to be time symmetric as follows,
+There are four variables in our equations $r,m,\sigma,\psi$ thus we need the initial spatial profile of all four to evolve the system in time but, at time $t=0$ we only have the freedom to choose the spatial profile of $\psi$. We can not arbitrarily take the spatial profiles for $r,m,\sigma$, because even at $t=0$ they have to satisfy the Einstein equations to represent a physical system. The spatial profiles of all these four variables are the \index{initial conditions}initial conditions of our system. To get  the initial conditions we will use a simplification and set them  to be time symmetric, which implies that,
 
 \begin{equation}
     r_{, t}=\sigma_{, t}=\phi_{, t}=\psi_{, t}=0 \quad \text { at } t=0
@@ -139,7 +140,7 @@ Now we will use equations \ref{eqn:r}, \ref{eqn:constraint_1} and \ref{eqn:m_x} 
 \end{equation}
 
 The reason we used equations \ref{eqn:r}, \ref{eqn:constraint_1} and \ref{eqn:m_x} was partially motivated by the fact that we wanted the simplest system that can be solved to get the initial conditions.
-We can solve these three ODEs get the initial conditions but we still need the boundary conditions at $(0,0)$ to get that. Here we are just going to mention the boundary conditions that we are going to use, to understand the motivation behind this choice refer \citep{Guo:2013dha}.
+To solve these three ODEs we need the corresponding boundary conditions on $r,\sigma$ and $m$ at $(0,0)$. Here we are just going to state the boundary conditions we will be using, to understand the motivation behind this choice refer \citep{Guo:2013dha}.
 
 \begin{eqnarray}
     r(0 ,0) = 0  \\
@@ -148,14 +149,16 @@ We can solve these three ODEs get the initial conditions but we still need the b
     m(0 ,0) = 1
 \end{eqnarray}
 
-Notice that we need four boundary conditions in total and we have them.
+% Notice that we need four boundary conditions in total and we have them.
 
-To wrap up this chapter we need the boundary conditions at the spatial boundaries. Here we will only derive the boundary conditions at the origin, boundary conditions at the other boundary will be set by extrapolation (more about this choice in the section \ref{chap3:boundary_conditinos}). To get these boundary conditions at the origin we will use regularity arguments.
+To evolve our initial data we also need the boundary conditions at the spatial boundaries. Here we will only derive the boundary conditions at the origin, boundary conditions at the outer boundary will be set by extrapolation (to understand the motivation behind this choice refer to section \ref{chap3:boundary_conditinos}).
+
+To get the boundary conditions at the origin we will use regularity arguments.
 Observe that $r$ is always set to $0$ at $x=0$, this is done to prevent formation of any kind of cusp at the origin, which give us $r_{,t}(t,0) = 0$ and $r_{,tt}(t,0)=0$.
-Now, to ensure that the term $\frac{2}{r}\left(-r_{, t} \psi_{, t}+r_{, x} \psi_{, x}\right)$ from the equation \ref{eqn:psi} is regular at the origin we need that $r_{, x} \psi_{, x}$, because $r_{,t}(t,0)$ is already $0$, which give us that $\psi_{,x}(t,0) = 0$. Looking at the equation \ref{eqn:m_definition} we can also see that we need $m(t,0) = 0 $. Similarly from the equation \ref{eqn:r} we get that $r_{,xx}=0$. Finally, at the origin the equation \ref{eqn:constraint_2} becomes $r_{,x} \sigma_{,x} = 0$ which gives us $\sigma_{,x}(t,0) = 0$.
+Now, to ensure that the term $\frac{2}{r}\left(-r_{, t} \psi_{, t}+r_{, x} \psi_{, x}\right)$ from the equation \ref{eqn:psi} is regular at the origin we need that $r_{, x} \psi_{, x} = 0$ because $r_{,t}(t,0)$ is already $0$, therefore we have that $\psi_{,x}(t,0) = 0$. Looking at the equation \ref{eqn:m_definition} we can see that we need $m(t,0) = 0 $ to keep the term $\frac{2 m}{r}$ regular. Similarly from the equation \ref{eqn:r} we get that $r_{,xx}=0$. Finally, at the origin the equation \ref{eqn:constraint_2} becomes $r_{,x} \sigma_{,x} = 0$ which gives us $\sigma_{,x}(t,0) = 0$.
 
 
-During the numerical evolution we will need the following boundary conditions,
+One can see that not all of these boundary conditions are independent. To evolve the initial data we will use the following four boundary conditions at the origin,
 
 \begin{eqnarray}
     r(t,0) = 0 \\

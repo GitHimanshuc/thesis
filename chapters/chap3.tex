@@ -109,7 +109,7 @@ Notice that this is the exact formula that we were using for approximating the d
 \begin{figure}[hbt!]
     \centering
     \includegraphics[width=\textwidth]{images/x^3_error_order1.png}
-    \caption{This plot show error of using finite difference to approximate the derivative of $x^3$ vs the step size. Observe that the error falls almost linearly until the floating point errors start to dominate, after which it starts to grow erratically. Also, observe that for reasonable step sizes the error falls with a slope of 1, which is why such approximations are called to be of first order. }\label{fig:x^3_error_order1}
+    \caption[Error in the approximation of the first derivative of $x^3$ by finite difference methods.]{This plot show error of using finite difference to approximate the derivative of $x^3$ vs the step size. Observe that the error falls almost linearly until the floating point errors start to dominate, after which it starts to grow erratically. Also, observe that for reasonable step sizes the error falls with a slope of 1, which is why such approximations are called to be of first order. }\label{fig:x^3_error_order1}
     \index{figures}
 \end{figure}
 
@@ -127,7 +127,7 @@ To show that this a second order method one can taylor expand $y(x)$ around $x_0
 \begin{figure}[hbt!]
     \centering
     \includegraphics[width=\textwidth]{images/x^3_error_order2.png}
-    \caption{This plot show error of using finite difference to approximate the derivative of $x^3$ vs the step size. Observe that the error falls almost linearly until the floating point errors start to dominate, after which it starts to grow erratically. Also, observe that for reasonable step sizes the error falls along a line with slope 2 which is to be expected of a second order approximation. }\label{fig:x^3_error_order2}
+    \caption[Error in the approximation of the second derivative of $x^3$ by finite difference methods.]{This plot show error of using finite difference to approximate the derivative of $x^3$ vs the step size. Observe that the error falls almost linearly until the floating point errors start to dominate, after which it starts to grow erratically. Also, observe that for reasonable step sizes the error falls along a line with slope 2 which is to be expected of a second order approximation. }\label{fig:x^3_error_order2}
     \index{figures}
 \end{figure}
 
@@ -384,7 +384,7 @@ For other equations, the procedure is exactly the same with the only difference 
 \begin{figure}[hbt!]
     \centering
     \includegraphics[width=\textwidth]{images/labelled_grid.eps}
-    \caption{This figure shows our computational domain and the stencil used. To calculate the value at any point on the grid we need the red dot of the stencil to be at that grid point, observe that we can not put the red circle of the stencil in the regions that are green, red and blue. \textbf{Yellow}: We can use our stencil in this region. \textbf{Red}: We have to use any other method or stencil that only uses last time step, we used taylor series because it was the easiest to use in our case. \textbf{Blue}: This is the initial configuration of system that we evolve in time, initial conditions of our system.}
+    \caption[Stencil used and the computational grid]{This figure shows our computational domain and the stencil used. To calculate the value at any point on the grid we need the red dot of the stencil to be at that grid point, observe that we can not put the red circle of the stencil in the regions that are green, red and blue. \textbf{Yellow}: We can use our stencil in this region. \textbf{Red}: We have to use any other method or stencil that only uses last time step, we used taylor series because it was the easiest to use in our case. \textbf{Blue}: This is the initial configuration of system that we evolve in time, initial conditions of our system.}
     \label{fig:grid_with_stencil_and_regions}
     \index{figures}
 \end{figure}
