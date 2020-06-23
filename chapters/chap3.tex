@@ -74,7 +74,7 @@ Just for the sake of clarity, we should mention that here we are not taking abou
 Here we have given all the examples in float32 but the concepts carry over to float64, the only difference being that float64 can handle much smaller number and more significant digits. As already mentioned modern computers CPU's are designed to deal with float64 arithmetic and it is accurate enough so we use it for most of our calculations. Using float128 or larger floats can give much more accuracy but they will very slow compared to using float64 and are not required for most of the applications.
 
 \subsection{Floating point errors in finite difference approximations}
-
+\label{chap3:floating_point_errors}
 Now that we have some idea about the floating point arithmetic we can dive into the graphs.
 In the figure \ref{fig:x^3_error_order1} there are three lines, each corresponding to a different sized float used for the calculations.
 
@@ -265,7 +265,7 @@ Similarly, second order derivatives can be written as,
 
 \subsection{Solving initial conditions}
 
-From the section \ref{sec:boundary_and_initial_conditions} we know that equations that we need to solve and their corresponding boundary conditions.
+From the section \ref{chap2:boundary_and_initial_conditions} we know that equations that we need to solve and their corresponding boundary conditions.
 
 
 \begin{equation}
@@ -294,7 +294,7 @@ with boundary conditions,
     m(0 ,0) = 1 \implies m^0_0 = 0
 \end{eqnarray}
 
-We used fourth order \index{Runge-Kutta}Runge-Kutta (RK4) method to solve these equations. RK4 method is the industry standard method to solve ordinary differential equations, as the name suggests RK4 is a fourth order method. Like most of the other finite difference methods RK4 is derived by solving a bunch of linear equations we get from the taylor expansion, and its derivation is shown in the appendix because it will not add a lot to the current discussion.
+We used fourth order \index{Runge-Kutta}Runge-Kutta (RK4) method to solve these equations. RK4 method is the industry standard method to solve ordinary differential equations, as the name suggests RK4 is a fourth order method. Like most of the other finite difference methods RK4 is derived by solving a bunch of linear equations we get from the taylor expansion. Its derivation can be found in any numerical analysis book and we will skip it because it will not add a lot to the current discussion.
 
 Unlike partial differential equations, solving ordinary differential equations is mostly a "solved" problem in the sense that are plethora of robust packages that can solve a system of differential equations without any significant input from the user.
 
@@ -355,7 +355,7 @@ Now we will use the second order finite difference approximations already discus
     \label{eqn:end_discretizations}
 \end{eqnarray}
 
-Other variables can be discretized in the same manner. Now we will make another simplifying assumption $\delta t = \delta x$, we make this assumption to make the equations look a little simpler and it does not affect the results. But, this is not something that can be always be done, there are systems where making this assumption will lead to \index{superfluous oscillations} superfluous oscillations and \index{instability}instability. To prevent such instabilities we need to ensure that the temporal step size ($\delta t$) is bounded above by the spatial step size ($\delta x$) as dictated by the \index{Courant–Friedrichs–Lewy}Courant–Friedrichs–Lewy or \index{CFL}CFL conditions, we will discuss this topic in detail in Appendix B. For now it is enough to know that for our system we can take $\delta t = \delta x$ without causing instabilities.
+Other variables can be discretized in the same manner. Now we will make another simplifying assumption $\delta t = \delta x$, we make this assumption to make the equations look a little simpler and it does not affect the results. But, this is not something that can be always be done, there are systems where making this assumption will lead to \index{superfluous oscillations} superfluous oscillations and \index{instability}instability. To prevent such instabilities we need to ensure that the temporal step size ($\delta t$) is bounded above by the spatial step size ($\delta x$) as dictated by the \index{Courant–Friedrichs–Lewy}Courant–Friedrichs–Lewy or \index{CFL}CFL conditions. For now it is enough to know that for our system we can take $\delta t = \delta x$ without causing instabilities.
 
 
 Now, putting equations \ref{eqn:beg_discretizations}-\ref{eqn:end_discretizations} and similar equations for $r$ in the equation \ref{eqn:psi_discretized_notation} and cancelling out all the $\delta t$ and $\delta x$ we get,
@@ -422,7 +422,7 @@ For $m$ we need to do some work, first we have to take time derivative of the eq
 
 
 \subsection{Boundary conditions}
-
+\label{chap3:boundary_conditinos}
 
 Boundary conditions at $x=0$ are easy to implement, for example, $r_t(t,0) = 0$ when discretized is same as $r^{n}_0 = r^{n-1}_0$. Similarly, $\psi_{,x}(t,0) = 0 $ when discretized implies $\psi^{n}_0 = \psi^{n}_1$.
 
@@ -439,6 +439,34 @@ This can be intuitively seen in the Figure \ref{fig:grid_outer_boundary_conditio
     \label{fig:grid_outer_boundary_conditions}
     \index{figures}
 \end{figure}
+
+
+\section{How do we check the accuracy of the numerical results?}
+
+Because we do not have an analytical solution to compare with we need some others ways to get confidence in our results. We used two commonly used methods to check the reliability of our numerical results,
+
+\begin{enumerate}
+    \item Using constraint equations
+    \item Showing that the results are independent of the step size
+\end{enumerate}
+
+\subsection{Using constraint equations}
+
+As mentioned in the last chapter we get two constraint equations along with the three evolution equations. We can use these constraint equations to check whether our results are correct or not. This is the primary method we used and there will be more discussion about the value of constraint in the next chapter.
+
+
+\subsection{Showing that the results are independent of the step size}
+
+We have developed the whole algorithm but there is still the question of what step size should we use. If the step size is too small then our equations will not be a good approximation of the original equations. On the other hand if the step size is too small then it may take a lot of time to evolve the system. The standard way of choosing a step size is to decide on a tolerance and try out several step sizes. As we keep decreasing the step size there will be a threshold after which the answers will effectively become independent of the step size up to the tolerance. We can then choose any step size smaller than the threshold.
+
+This also acts as a check for the algorithm because any dependence of the answer on the step sizes smaller than the threshold is a clear indication that our algorithms are not true representation of the underlying differential equations.
+This method of checking the finite difference may fail for chaotic systems, but we are not dealing with those here.
+
+Then there are obvious problem specific sanity checks like there are no superfluous oscillations. We can also check for extreme cases, for example, in our system if we take the initial configuration of the scalar field to be uniformly zero then we do not expect to see any kind of evolution.
+
+
+
+
 
 
 This sums up our numerical part, in the next chapter we will discuss about the profiles of $\psi$ used and the results.

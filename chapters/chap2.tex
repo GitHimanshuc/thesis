@@ -1,50 +1,165 @@
-\chapter{Introduction to critical Scalar collapse}
+\chapter{Collapse of scalar field in general relativity}
+
+
+If we have a minimally coupled massless scalar field in general relativity then it will either disperse to infinity or collapse into a black hole. In addition to that if we vary any one parameter $p$ of the initial data then we can find a threshold $p^*$ above crossing which will lead to the formation of a black hole. At this threshold $p^*$ we get critical collapse along with a lot of interesting properties.
+
+Firstly, there is a mass scaling law of the black hole
+
+\begin{equation*}
+    M \propto (p - p^*)^\gamma
+\end{equation*}
+
+Here M is the mass of the black hole, and $p^*$ depends on the function that describes in the initial data, for example it will be different for a gaussian vs a square initial data. The important point to note here is that $\gamma$ is universal or independent of the the type of the initial data.
+
+This universality has a very important implication, as it implies that one can create a naked singularity because one can effectively create a massless black hole.
+
+Another important property of scalar field collapse close to criticality is called self-similarity. Self-similarity means that close to the origin the scalar field follow a scaling relation,
+
+\begin{equation*}
+    \psi(t,x) = \psi(e^{At},e^{Ax})
+\end{equation*}
+
+First studies of scalar field collapse were done by Choptuik \citep{Gundlach:2007gc}, but his studies were focussed on the critical collapse.
 
 In our case we were not so much interested in the behavior of the field close to criticality. What we wanted to understand was how much the scalar field moves during the black hole formation so we can relate it to the swampland distance bound.
 
-\begin{equation}M \simeq k\left(p-p_{*}\right)^{\gamma}\end{equation}
-\begin{equation}\phi_{*}(r, t)=\phi_{*}\left(e^{\Delta} r, e^{\Delta} t\right)\end{equation}
+\section{Scalar collapse equations}
+
+
+To get the equations of motion we will closely follow the approach taken by \citep{Guo:2018yyt}. We want to study the collapse of minimally coupled scalar field for which the action takes the form,
+
+\begin{equation}
+    S=\frac{1}{8 \pi G} \int d^{4} x \sqrt{-g}\left(\frac{1}{2} R-\frac{1}{2} \partial_{\mu} \phi \partial^{\mu} \phi\right)
+\end{equation}
+
+Because we want to study the scalar fields near the origin a good choice of coordinates is double-null coordinates,
+
+\begin{equation}
+    ds^2=e^{-2 \sigma(t, x)}\left(-d t^{2}+d x^{2}\right)+r^{2}(t, x) d \Omega^{2}
+\end{equation}
+
+here $\sigma$ and $r$ are a function of $(t,c)$.
+
+We can now write our equations of motion as,
+
+
+\begin{equation}
+    r\left(-r_{, t t}+r_{, x x}\right)-r_{, t}^{2}+r_{x}^{2}=e^{-2 \sigma}
+\end{equation}
+
+\begin{equation}
+    -\sigma_{, t t}+\sigma_{,x x}+\frac{r_{, t t}-r_{,x x}}{r}+4 \pi\left(\psi_{, t}^{2}-\psi_{, x}^{2}\right)=0
+\end{equation}
+
+\begin{equation}
+    -\psi_{, t t}+\psi_{,x x}+\frac{2}{r}\left(-r_{, t} \psi_{, t}+r_{, x} \psi_{, x}\right)=0
+\end{equation}
+
+In addition to these evolution equations we also get two constraint equations as well,
+
+
+\begin{equation}
+    r_{, t x}+r_{, t} \sigma_{, x}+r_{, x} \sigma_{, t}+4 \pi r \psi_{, t} \psi_{, x}=0
+    \label{eqn:constraint_1}
+\end{equation}
+
+\begin{equation}
+    r_{, t t}+r_{, x x}+2 r_{, t} \sigma_{, t}+2 r_{, x} \sigma_{, x}+4 \pi r\left(\psi_{, t}^{2}+\psi_{, x}^{2}\right)=0
+    \label{eqn:constraint_2}
+\end{equation}
+
+
+Now we introduce a new variable $m$ defined by,
+
+\begin{equation}
+    g^{\mu \nu} r_{, \mu} r_{, \nu}=e^{2 \sigma}\left(-r_{, t}^{2}+r_{, x}^{2}\right) \equiv 1-\frac{2 m}{r}
+    \label{eqn:m_definition}
+\end{equation}
+
+Defining this extra variable helps with the stability of the numerical solutions.
+To get the evolution equation for $m$ we differentiate the equation \ref{eqn:m_definition} with respect to time and use the above equations. Using the definition of $m$ we can write the final form of the equations that we will be using to study the scalar collapse,
 
 
 \begin{equation}
     -\psi_{, t t}+\psi_{, x x}+\frac{2}{r}\left(-r_{, t} \psi_{, t}+r_{, x} \psi_{, x}\right)=0
+    \label{eqn:psi}
 \end{equation}
 
 \begin{equation}
     -r_{, t t}+r_{, x x}-e^{-2 \sigma} \cdot \frac{2 m}{r^{2}}=0
+    \label{eqn:r}
 \end{equation}
 
 \begin{equation}
     -\sigma_{, t t}+\sigma_{, x x}-e^{-2 \sigma} \cdot \frac{2 m}{r^{3}}+4 \pi\left(\psi_{, t}^{2}-\psi_{, x}^{2}\right)=0
+    \label{eqn:sigma}
 \end{equation}
 
-\begin{equation}m_{, t}=4 \pi r^{2} \cdot e^{2 \sigma}\left[-\frac{1}{2} r_{, t}\left(\psi_{, t}^{2}+\psi_{, x}^{2}\right)+r_{, x} \psi_{, t} \psi_{, x}\right]\end{equation}
+\begin{equation}
+    m_{, t}=4 \pi r^{2} \cdot e^{2 \sigma}\left[-\frac{1}{2} r_{, t}\left(\psi_{, t}^{2}+\psi_{, x}^{2}\right)+r_{, x} \psi_{, t} \psi_{, x}\right]
+    \label{eqn:m_t}
+\end{equation}
 
 
-\section{Boundary and Initial conditions} \label{sec:boundary_and_initial_conditions}
+differentiating the equation \ref{eqn:m_definition} with respect to $x$ and using the evolution equation we can also get the equation for the $x$ derivative of $m$ which we will be using to solve for the initial conditions.
+
+\begin{equation}
+    m_{, x}=4 \pi r^{2} \cdot e^{2 \sigma}\left[\frac{1}{2} r_{, x}\left(\psi_{, t}^{2}+\psi_{, x}^{2}\right)-r_{, t} \psi_{, t} \psi_{, x}\right]
+    \label{eqn:m_x}
+\end{equation}
+
+\section{Boundary and Initial conditions} \label{chap2:boundary_and_initial_conditions}
+
+
 
 There are four variables in our equations $r,m,\sigma,\psi$. At time $t=0$ we only have the value of $\psi$ for all the values of $x$, i.e. we have profile of the initial scalar field configuration. Before we can evolve the system in time we need the profile of other three variable at $t=0$. That being said we are not free to choose any profile for $r,m,\sigma$ because even at $t=0$ they have to satisfy the Einstein equations to represent a physical system.
+To get the initial conditions we will use a simplification and set the initial conditions to be time symmetric as follows,
+
+\begin{equation}
+    r_{, t}=\sigma_{, t}=\phi_{, t}=\psi_{, t}=0 \quad \text { at } t=0
+    \label{eqn:time_symmetric_boundary_conditinons}
+\end{equation}
+
+Now we will use equations \ref{eqn:r}, \ref{eqn:constraint_1} and \ref{eqn:m_x} along with the equations \ref{eqn:time_symmetric_boundary_conditinons} to get,
 
 
 \begin{equation}
     r_{, x x}=e^{-2 \sigma} \cdot \frac{2 m}{r^{2}}
-\end{equation}\label{eqn:r_chap3}
+    \label{eqn:r_chap3}
+\end{equation}
 
 
 \begin{equation}
     \sigma_{, x}= -2 \pi \cdot  \frac{\psi_{, x}^{2} \cdot r}{r_{,x}}- e^{-2 \sigma} \cdot \frac{ m}{r^{2}r_{, x}}
-\end{equation}\label{eqn:sigma_chap3}
+    \label{eqn:sigma_chap3}
+\end{equation}
 
-\begin{equation}m_{, x}=4 \pi r^{2} \cdot e^{2 \sigma}\left[\frac{1}{2} r_{, x} \cdot \psi_{, x}^{2} \right]\end{equation}
+\begin{equation}
+    m_{, x}=4 \pi r^{2} \cdot e^{2 \sigma}\left[\frac{1}{2} r_{, x} \cdot \psi_{, x}^{2} \right]
+\end{equation}
 
-
-with boundary conditions,
+The reason we used equations \ref{eqn:r}, \ref{eqn:constraint_1} and \ref{eqn:m_x} was partially motivated by the fact that we wanted the simplest system that can be solved to get the initial conditions.
+We can solve these three ODEs get the initial conditions but we still need the boundary conditions at $(0,0)$ to get that. Here we are just going to mention the boundary conditions that we are going to use, to understand the motivation behind this choice refer \citep{Guo:2013dha}.
 
 \begin{eqnarray}
-    r(0 ,0) = 0 \implies r^0_0 = 0 \\
-    r_{,x}(0 ,0) = 1 \implies r^0_{0,x} = 1 \\
-    \sigma(0 ,0) = 1 \implies \sigma^0_0 = 0 \\
-    m(0 ,0) = 1 \implies m^0_0 = 0
+    r(0 ,0) = 0  \\
+    r_{,x}(0 ,0) = 1  \\
+    \sigma(0 ,0) = 1  \\
+    m(0 ,0) = 1
 \end{eqnarray}
 
 Notice that we need four boundary conditions in total and we have them.
+
+To wrap up this chapter we need the boundary conditions at the spatial boundaries. Here we will only derive the boundary conditions at the origin, boundary conditions at the other boundary will be set by extrapolation (more about this choice in the section \ref{chap3:boundary_conditinos}). To get these boundary conditions at the origin we will use regularity arguments.
+Observe that $r$ is always set to $0$ at $x=0$, this is done to prevent formation of any kind of cusp at the origin, which give us $r_{,t}(t,0) = 0$ and $r_{,tt}(t,0)=0$.
+Now, to ensure that the term $\frac{2}{r}\left(-r_{, t} \psi_{, t}+r_{, x} \psi_{, x}\right)$ from the equation \ref{eqn:psi} is regular at the origin we need that $r_{, x} \psi_{, x}$, because $r_{,t}(t,0)$ is already $0$, which give us that $\psi_{,x}(t,0) = 0$. Looking at the equation \ref{eqn:m_definition} we can also see that we need $m(t,0) = 0 $. Similarly from the equation \ref{eqn:r} we get that $r_{,xx}=0$. Finally, at the origin the equation \ref{eqn:constraint_2} becomes $r_{,x} \sigma_{,x} = 0$ which gives us $\sigma_{,x}(t,0) = 0$.
+
+
+During the numerical evolution we will need the following boundary conditions,
+
+\begin{eqnarray}
+    r(t,0) = 0 \\
+    m(t,0) =0 \\
+    \psi_{,x}(t,0) = 0\\
+    \sigma_{,x}(t,0) = 0
+\end{eqnarray}
