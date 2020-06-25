@@ -155,8 +155,8 @@
  \begin{center}
    \SingleSpacing
    \copyright~\@copyyear\par
-   \@author\\ORCID: \@orcid\par
-   \@rightsstatement\par
+  %  \@author\\ORCID: \@orcid\par
+  %  \@rightsstatement\par
  \end{center}}
  \newpage
 }               %% End of \makecopyright
@@ -190,7 +190,7 @@
  \end{titlingpage}
  \pagenumbering{roman}
  \setcounter{page}{2}
- \makecopyright
+%  \makecopyright
 }               %% End of \maketitle
 
 
